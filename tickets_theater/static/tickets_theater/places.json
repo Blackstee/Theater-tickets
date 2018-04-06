@@ -1,0 +1,27 @@
+{ "places": {
+"place": [
+{
+"city": "Kyiv",
+"country": "Ukraine",
+"category_pl": 2,
+"address": "brvbirt"
+},
+{
+"city": "Lviv",
+"country": "Ukraine",
+"category_pl": 2,
+"address": "brvbirt"
+},
+{
+"city": "Poltava",
+"country": "Ukraine",
+"category_pl": 0,
+"address": "brvbirt"
+},
+{
+"city": "Chernivtsi",
+"country": "Ukraine",
+"category_pl": 1,
+"address": "brvbirt"
+}
+]}}

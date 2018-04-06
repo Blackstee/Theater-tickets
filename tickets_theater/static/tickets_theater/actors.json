@@ -1,0 +1,32 @@
+{ "actors": {
+"actor": [
+{
+"name": "Tom",
+"surname": "Cruise",
+"age"  : "62",
+"sex" : "man"
+},
+{
+"name": "Maria",
+"surname": "Sharapova",
+"age"  : "24",
+"sex" : "woman"
+},
+{
+"name": "James",
+"surname": "Bond",
+"age"  : "42",
+"sex" : "man"
+},
+{
+"name": "Freddy",
+"surname": "Bond",
+"age"  : "43" ,
+"sex" : "man"
+}, {
+"name": "Angelina",
+"surname": "Joly",
+"age"  : "43" ,
+"sex" : "woman"
+}
+]}}

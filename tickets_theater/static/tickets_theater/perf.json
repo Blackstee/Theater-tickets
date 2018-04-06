@@ -1,0 +1,27 @@
+{ "performances": {
+"performance": [
+{
+"name": "New York city",
+"style": "music",
+"actors"  : "Tom Cruise, James Bond",
+"author" : "Spielberg"
+},
+{
+"name": "Little pony",
+"style": "for kids",
+"actors"  : "Tom Cruise, James Bond",
+"author" : "Besson"
+},
+{
+"name": "Arthur and miniputes",
+"style": "fantasy",
+"actors"  : "Freddy Bond, James Bond",
+"author" : "Spielberg"
+},
+{
+"name": "Lady in Red",
+"style": "music",
+"actors"  : "Chris De Burg",
+"author" : "Chris De Burgh"
+}
+]}}

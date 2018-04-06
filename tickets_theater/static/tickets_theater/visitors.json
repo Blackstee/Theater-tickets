@@ -1,0 +1,23 @@
+{ "visitors": {
+"visitor": [
+{
+"name": "Tom",
+"surname": "Cruise",
+"category": "1"
+},
+{
+"name": "Maria",
+"surname": "Sharapova",
+"category": "1"
+},
+{
+"name": "James",
+"surname": "Bond",
+"category": "2"
+},
+{
+"name": "Freddy",
+"surname": "Bond",
+"category": "2"
+}
+]}}

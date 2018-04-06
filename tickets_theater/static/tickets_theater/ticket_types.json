@@ -1,0 +1,19 @@
+{ "types": {
+"type": [
+{
+"sector": "1",
+"price": "300"
+},
+{
+"sector": "2",
+"price": "250"
+},
+{
+"sector": "3",
+"price": "200"
+},
+{
+"sector": "4",
+"price": "150"
+}
+]}}

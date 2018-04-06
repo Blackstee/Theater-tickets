@@ -1,0 +1,413 @@
+{% load staticfiles %}
+<html>
+    <head>
+         <link rel="shortcut icon" type="image/png" href="{% static "tickets_theater/favicon.ico" %} "/>
+
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static "tickets_theater/styleq.css" %} ">
+    </head>
+    <body>
+    <script>
+    $(document).ready( function() {
+      $('#way').bind('change', function (e) {
+        if( $('#way').val() == 'datebetween') {
+          $('#datebet').show();
+    	  $("#datebet").css({ display: "inline-block" });
+    	  $('#bin').hide();
+    	  $('#word').hide();
+        }
+        else if( $('#way').val() == 'binocular') {
+          $('#datebet').hide();
+    	  $('#bin').show();
+    	  $('#word').hide();
+        }
+        else  {
+          $('#word').show();
+          $('#datebet').hide();
+    	  $('#bin').hide();
+        }
+      }).trigger('change');
+    });
+
+</script>
+    <nav role='navigation'>
+        <ul>
+            <li><a href="/performances">Performances</a></li>
+            <li><a href="/tickets">Tickets</a></li>
+            <li class="submenu0">
+            <a href="/search">Search</a>
+            </li>
+        </ul>
+    </nav>
+    {% if data == 2 %}
+    <div class="mytable2" >
+    <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th colspan="3">
+        Search for tickets
+        </th>
+        <th></th>
+      </tr>
+      <tr>
+      </tr>
+    </thead>
+    <tbody>
+    <form method="POST" style="margin:0">{% csrf_token %}
+           <tr><td> <div class="row">
+
+
+                    <div class="col-md-6">
+                    <div class ="way" style="display:inline-block;">
+		            <label for="performance">Choose way</label>
+                           <p>
+		             <p><select name="way" id="way" class="colortext">
+                         <option disabled>Choose way</option>
+                         <option value="datebetween">Between Dates</option>
+                         <option value="binocular">Binocular</option>
+                         <option value="notmatch">Doesn't match with word</option>
+                         <option value="match">Match with word</option>
+                        </select></p>
+                           </p>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div id = "datebet" style="margin:0 auto; display:none;">
+
+		            <label for="date">Choose date range</label>
+                       <p>
+                    <input type="datetime-local"class="colortext" name="date1" id="date1" size="30" value = "2014-11-16T15:23"/>
+                       </p>
+                        <p>
+                    <input type="datetime-local"class="colortext" name="date2" id="date2" size="30" value = "2014-11-16T15:23"/>
+                       </p>
+
+		            </div>
+		            <div id = "bin" style="display:inline-block;">
+                           <label for="binoc">Need binocular?</label>
+                           <p>
+		             <p><select name="binoc" class="colortext" id="binoc">
+                         <option disabled>Choose variant</option>
+                         <option value="yes">Yes</option>
+                         <option selected="selected" value="no">No</option>
+                        </select></p>
+                           </p>
+                       </div>
+                       <div id = "word" style="display:inline-block;">
+                           <label for="word">Put a word for search</label>
+                           <p>
+                            <p>
+                            <input type = "text" name="wordin" class="colortext" placeholder = "Put here a word" id="wordin"/>
+                            </p>
+                           </p>
+
+                       </div>
+                       </div>
+                       </div>
+
+            </td>
+            <td>
+
+                        <input type="hidden" name = "Search" value = "search"/>
+                        <input type="submit" class="btn btn-primary center-block" value="Search"/>
+            </td>
+            </tr>
+
+     </form>
+    </tbody>
+    </table>
+    </div>
+    {% endif %}
+    {% if id == -5 %}
+    <div class="mytable" >
+    <table>
+    <thead>
+      <tr>
+      {% if data >= 1 %}
+        <th><i data-target="#addModal" data-toggle="modal" class="material-icons button add">add</i>
+        <i data-target="#refreshModal" data-toggle="modal" class="material-icons button cached icon-white">cached</i></th>
+          {% else %}
+        <th></th>
+        {% endif %}
+        <th colspan="3">
+        {% if data >= 1 %}
+        Active tickets
+        {% else %}
+        Performances
+        {% endif %}
+        </th>
+        <th></th>
+      </tr>
+      <tr>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% if data >= 1 %}
+      {%for row in db%}
+      <tr  onclick="location.href='/tickets/{{row.idticket_sales}}/'">
+        <td>Date: {{row.date }}</td>
+        <td>Row|Sit: {{row.row}}|{{row.sit}}</td>
+        <td>Performance: {{row.idperformance.name}}</td>
+        <td>
+        <div class="col-md-6">
+        <a href="/tickets/{{row.idticket_sales}}/" class="btn btn-info" data-toggle="modal">Edit</a>
+        </div>
+        <div class="col-md-6">
+        <form method="POST" style="margin:0">{% csrf_token %}
+              <input type="hidden" name = "action" value = "{{row.idticket_sales}}"/>
+            <input type="submit" class="btn btn-danger" value="Delete"/>
+         </form>
+         </div>
+        </td>
+      </tr>
+      {% endfor%}
+      {% else %}
+    {%for per in dbper%}
+       <tr>
+        <td>Name: {{per.name}}</td>
+        <td>Style: {{per.style}}</td>
+        <td>Actor: {{per.actors}}</td>
+        <td>Author: {{per.author}}</td>
+      </tr>
+    {% endfor %}
+      {% endif %}
+    </tbody>
+    </table>
+    </div>
+
+    {% else %}
+    <div class="mytable2" >
+    <table>
+    <thead>
+      <tr>
+        <th text-center>
+        Active Ticket
+        </th>
+        <th></th>
+      </tr>
+      <tr>
+      </tr>
+    </thead>
+    <tbody>
+    {%for row in db%}
+    <form method="POST" style="margin:0">{% csrf_token %}
+           <tr><td colspan = "2"> <div class="row">
+
+
+                       <div class="col-md-6 text-center">
+		            <label for="performance">Choose performance</label>
+                           <p>
+		             <p><select name="performance" id="performance" class="colortext">
+                         <option disabled>Choose performance</option>
+                         {%for perf in dbper%}
+                         <option value={{perf.idperformance}}>{{perf.name}}</option>
+                           {% endfor %}
+                        </select>
+                       </p>
+                           </p>
+		            <p>
+		            <label for="date">Choose date and time<br> Current: {{row.date}}</label>
+                       <p>
+
+                    <input type="datetime-local"class="colortext" name="date" id="date" size="30" value="2018-01-09T19:39:00"/>
+                       </p>
+		            </p>
+                           <label for="type">Choose type of ticket</label>
+                           <p>
+		             <p><select name="type" id="type" value = "adult" class="colortext">
+                         <option disabled>Choose city</option>
+                           {%for type in dbtype%}
+                         <option value={{type.idplace}}>{{type.city}}  ({{type.country}})</option>
+                           {% endfor %}
+                        </select></p>
+                           </p>
+                       </div>
+                       <div class="col-md-6 text-center">
+		            <p>
+		            <label for="row">Choose a row</label>
+                       <p>
+		            <input type="number" class="colortext" name="row" id="row" min="1" max="10" step="1" value={{row.row}} />
+                       </p>
+		            </p>
+                    <p>
+		            <label for="sit">Choose a sit</label>
+                       <p>
+		            <input type="number" class="colortext" name="sit" id="sit" min="1" max="30" step="1" value ={{row.sit}} />
+                       </p>
+		            </p>
+                           <label for="binoc">Need binocular?</label>
+                           <p>
+		             <p><select name="binoc" class="colortext" id="binoc">
+                         <option disabled>Choose variant</option>
+                         <option value="True">Yes</option>
+                         <option selected="selected" value="False">No</option>
+                        </select></p>
+                           </p>
+                       </div>
+                </div>
+            </td>
+            </tr>
+            <tr><td><br></td></tr>
+            <tr>
+            <td>
+                        <form method="POST" >{% csrf_token %}
+                        <input type="hidden" name = "action" value = "update"/>
+                        <input type="submit" class="btn btn-info btn-lg btn-block pull-right" value="Update"/>
+                        </form>
+            </td>
+            <td>
+
+
+                        <form method="POST" >{% csrf_token %}
+                           <input type="hidden" name = "action" value = "{{row.idticket_sales}}"/>
+                           <input type="submit" class="btn btn-danger btn-lg btn-block center-block  " value="Delete"/>
+                        </form>
+
+            </td>
+            </tr>
+            <tr><td><br></td></tr>
+     </form>
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+
+    {% endif %}
+
+
+    <div class="modal fade" id="addModal" role="dialog">
+      <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+        <form method="POST">{% csrf_token %}
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add a new ticket</h4>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row">
+                       <div class="col-md-4">
+		            <label for="performance">Choose performance</label>
+                           <p>
+		             <p><select name="performance" id="performance">
+                         <option disabled>Choose performance</option>
+                           {%for perf in dbper%}
+                         <option value={{perf.idperformance}}>{{perf.name}}</option>
+                           {% endfor %}
+                        </select></p>
+                           </p>
+		            <p>
+		            <label for="date" >Choose date and time</label>
+                       <p>
+                    <input type="datetime-local" name="date" id="date" size="30"/>
+                       </p>
+		            </p>
+                           <label for="type">Choose type of ticket</label>
+                           <p>
+		             <p><select name="type" id="type">
+                         <option disabled>Choose sector</option>
+                           {%for type in dbtype%}
+                         <option value={{type.idplace}}>{{type.city}}  ({{type.country}})</option>
+                           {% endfor %}
+                        </select></p>
+                           </p>
+                       </div>
+                       <div class="col-md-4">
+		            <p>
+		            <label for="row">Choose a row</label>
+                       <p>
+		            <input type="number" name="row" id="row" min="1" max="10" step="1"  />
+                       </p>
+		            </p>
+                    <p>
+		            <label for="sit">Choose a sit</label>
+                       <p>
+		            <input type="number" name="sit" id="sit" min="1" max="30" step="1" />
+                       </p>
+		            </p>
+                           <label for="binoc">Need binocular?</label>
+                           <p>
+		             <p><select name="binoc" id="binoc">
+                         <option disabled>Choose variant</option>
+                         <option value="True">Yes</option>
+                         <option value="False">No</option>
+                        </select></p>
+                           </p>
+
+                       </div>
+                       <div class="col-md-4">
+                     <img src="{% static "tickets_theater/red-ticket-512.png" %} " width="190" height ="190"/>
+                </div>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <input type="submit" class="btn btn-success" value="Add" id="add">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="refreshModal" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" align="center">Attention!</h4>
+          </div>
+          <div class="modal-body">
+            <p>Refresh everything from JSON files?</p>
+          </div>
+          <div class="modal-footer">
+
+              <form method="POST" style="margin:0">{% csrf_token %}
+              <input type="hidden" name = "action" value = "refresh"/>
+              <input type="submit" class="btn btn-warning bth-block" value="Refresh"/>
+              </form>
+
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" align="center">Attention!</h4>
+          </div>
+          <div class="modal-body">
+            <p>Delete this ticket?</p>
+          </div>
+          <div class="modal-footer" text-align="center">
+{%for row in db%}
+              <form method="POST" style="margin:0">{% csrf_token %}
+              <input type="hidden" name = "action" value = "{{row.idticket_sales}}"/>
+              <input type="submit" class="btn btn-danger" value="Delete"/>
+              </form>
+{% endfor %}
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+    </body>
+</html>
